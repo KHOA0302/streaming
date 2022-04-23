@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music player</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./asset/fonts/fontawesome-free-6.1.1-web/css/all.css">
+    <link rel="stylesheet" href="./asset/css/Music_player.css">
+    <title>Document</title>
+</head>
+<body>
+    
+<div class="player">
+  <!-- Dashboard -->
+  <div class="dashboard">
+    <!-- Header -->
+    <header>
+      <h4>Now playing:</h4>
+      <h2></h2>
+    </header>
+
+    <!-- CD -->
+    <div class="cd">
+      <div class="cd-thumb" style="background-image: url('https://i.ytimg.com/vi/jTLhQf5KJSc/maxresdefault.jpg')">
+      </div>
+    </div>
+
+    <!-- Control -->
+    <div class="control">
+      <div class="btn btn-status">
+        <i class="fas fa-redo btn-repeat"></i>
+        <!-- <i class="fas fa-random btn-random"></i> -->
+      </div>
+      <div class="btn btn-prev">
+        <i class="fas fa-step-backward"></i>
+      </div>
+      <div class="btn btn-toggle-play">
+        <i class="fas fa-pause icon-pause"></i>
+        <i class="fas fa-play icon-play"></i>
+      </div>
+      <div class="btn btn-next">
+        <i class="fas fa-step-forward"></i>
+      </div>
+      <div class="btn btn-volume">
+        <i class="fas fa-volume-down volume-on"></i>
+        <i class="fas fa-volume-mute volume-off"></i>
+        <input id="volume-bar" class="volume-bar" type="range" value="0.3" step="0.01" min="0" max="1">
+      </div>
+    </div>
+
+    <div class="progress-display">
+      <div class="progress-timeLine">
+        <p class="currentTime">0</p>
+        <p>/</p>
+        <p class="timeDuration">0</p>
+      </div>
+      <input id="progress" class="progress" type="range" value="0" step="1" min="0" max="100">
+    </div>
+
+    <audio id="audio" src=""></audio>
+  </div>
+
+  <!-- Playlist -->
+  <div class="playlist">
+  
+  </div>
+  <div></div>
+</div>
+  <script type="text/javascript" src = "./Music_Player.js"></script>
+</body>
+</html> 
