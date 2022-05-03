@@ -134,7 +134,6 @@ const app = {
 
         progress.oninput = (e) => {
             audio.currentTime = e.target.value * audio.duration / 100
-            console.log(audio.currentTime)
         }
     },
     loadCurrentSong: function() {
