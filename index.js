@@ -9,6 +9,7 @@ const player = $('.player')
 const progress = $('#progress')
 const volumeBar = $('.volume-bar')
 const volumeOn = $('.volume-on')
+const volumeOff = $('.volume-off')
 const songCurrentTime = $('.currentTime')
 const songTimeDuration = $('.timeDuration')
 
@@ -149,6 +150,18 @@ const app = {
             }
         }
     },
+    loadVolume: function() {
+        volumeOn.classList.add('active')
+        volumeBar.onchange = e => {
+            if(e.target.value === '0') {
+                volumeOff.classList.add('active')
+                volumeOn.classList.remove('active')
+            } else {
+                volumeOn.classList.add('active')
+                volumeOff.classList.remove('active')
+            }
+        }
+    },
     start: function() {
         this.defineProperties()
 
@@ -157,6 +170,8 @@ const app = {
         this.loadCurrentSong()
 
         this.loadCurrentTime()
+
+        this.loadVolume()
 
         this.render()
     },
