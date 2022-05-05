@@ -12,6 +12,8 @@ const volumeOn = $('.volume-on')
 const volumeOff = $('.volume-off')
 const songCurrentTime = $('.currentTime')
 const songTimeDuration = $('.timeDuration')
+const nextSong = $('.btn-next i')
+const prevSong = $('.btn-prev i')
 
 const app = {
     currentIndex: 0,
@@ -136,6 +138,20 @@ const app = {
         progress.oninput = (e) => {
             audio.currentTime = e.target.value * audio.duration / 100
         }
+
+        volumeOn.onclick = e => {
+            volumeBar.value = 0
+            audio.volume = 0
+            volumeOff.classList.add('active')
+            volumeOn.classList.remove('active')
+        }
+
+        volumeOff.onclick = e => {
+            volumeBar.value = 0.3
+            audio.volume = 0.3
+            volumeOn.classList.add('active')
+            volumeOff.classList.remove('active')
+        }
     },
     loadCurrentSong: function() {
         heading.textContent = this.currentSong.name
@@ -162,6 +178,12 @@ const app = {
             }
         }
     },
+    changeSong: function() {
+        const _this = this
+        nextSong.onclick = e => {
+           _this.currentIndex = _this.currentIndex + 1
+        }
+    },  
     start: function() {
         this.defineProperties()
 
@@ -172,6 +194,8 @@ const app = {
         this.loadCurrentTime()
 
         this.loadVolume()
+
+        this.changeSong()
 
         this.render()
     },
