@@ -136,8 +136,8 @@ const app = {
         }
 
         volumeOff.onclick = e => {
-            volumeBar.value = 0.3
-            audio.volume = 0.3
+            volumeBar.value = 0.2
+            audio.volume = 0.2
             volumeOn.classList.add('active')
             volumeOff.classList.remove('active')
         }
