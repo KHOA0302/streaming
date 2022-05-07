@@ -145,7 +145,12 @@ const app = {
         // xu ly chuyen bai hat 
 
         nextSong.onclick = e => {
-            _this.changeSong()
+            _this.nextSong()
+            _this.loadCurrentSong()       
+            audio.play()
+        }
+        prevSong.onclick = e => {
+            _this.prevSong()
             _this.loadCurrentSong()       
             audio.play()
         }
@@ -175,8 +180,17 @@ const app = {
             }
         }
     },
-    changeSong: function() {
+    nextSong: function() {
         this.currentIndex++
+        if(this.currentIndex > this.songs.length - 1) {
+            this.currentIndex = 0
+        }
+    },
+    prevSong: function() {
+        this.currentIndex--
+        if(this.currentIndex < 0) {
+            this.currentIndex = this.songs.length - 1
+        }
     },
     clickSongToPlay: function() {
         const _this = this
