@@ -25,17 +25,18 @@ const app = {
             path: './asset/songs/song1.mp3',
             image: './asset/img/bg1.jpg',
         },
-        {
-            name: '蒼のワルツ',
-            singer: 'Eve',
-            path: './asset/songs/song2.mp3',
-            image: './asset/img/bg2.webp',
-        },
+       
         {
             name: '四月は君の嘘',
             singer: 'Orange - 7!!',
             path: './asset/songs/song3.mp3',
             image: './asset/img/bg3.jpg',
+        },
+        {
+            name: '蒼のワルツ',
+            singer: 'Eve',
+            path: './asset/songs/song2.mp3',
+            image: './asset/img/bg2.webp',
         },
         {
             name: 'スパークル',
@@ -49,29 +50,17 @@ const app = {
             path: './asset/songs/song5.mp3',
             image: './asset/img/bg5.jpg',
         },
-        {
-            name: 'ハレハレヤ',
-            singer: '羽生まゐご',
-            path: './asset/songs/song5.mp3',
-            image: './asset/img/bg5.jpg',
-        },
-        {
-            name: 'ハレハレヤ',
-            singer: '羽生まゐご',
-            path: './asset/songs/song5.mp3',
-            image: './asset/img/bg5.jpg',
-        },
     ],
     render: function() {
-        const htmls = this.songs.map((song) => {
+        const htmls = this.songs.map((song, index) => {
             return `
                 <div class="song">
-                    <div class="thumb" 
-                        style="background-image: url('https://i.ytimg.com/vi/jTLhQf5KJSc/maxresdefault.jpg')">
+                    <div class="thumb" id=${index} 
+                        style="background-image: url('${song.image}')">
                     </div>
-                    <div class="body">
-                        <h3 class="title">${song.name}</h3>
-                        <p class="author">${song.singer}</p>
+                    <div class="body"  id=${index} >
+                        <h3 class="title"  id=${index} >${song.name}</h3>
+                        <p class="author"  id=${index} >${song.singer}</p>
                     </div>
                     <div class="option">
                         <i class="fas fa-ellipsis-h"></i>
@@ -152,6 +141,14 @@ const app = {
             volumeOn.classList.add('active')
             volumeOff.classList.remove('active')
         }
+
+        // xu ly chuyen bai hat 
+
+        nextSong.onclick = e => {
+            _this.changeSong()
+            _this.loadCurrentSong()       
+            audio.play()
+        }
     },
     loadCurrentSong: function() {
         heading.textContent = this.currentSong.name
@@ -179,11 +176,20 @@ const app = {
         }
     },
     changeSong: function() {
+        this.currentIndex++
+    },
+    clickSongToPlay: function() {
         const _this = this
-        nextSong.onclick = e => {
-           _this.currentIndex = _this.currentIndex + 1
-        }
-    },  
+        const songs = $$('.playlist div.song')
+        songs.forEach(song => {
+            song.onclick = e => {
+                console.log(e.target)
+                _this.currentIndex = e.target.id
+                _this.loadCurrentSong()
+                audio.play()
+            }
+        })
+    },
     start: function() {
         this.defineProperties()
 
@@ -195,9 +201,9 @@ const app = {
 
         this.loadVolume()
 
-        this.changeSong()
-
         this.render()
+
+        this.clickSongToPlay()
     },
 }
 
