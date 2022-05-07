@@ -116,17 +116,21 @@ const app = {
             _this.isPlaying = false
             player.classList.remove('playing')
         }
-
+        
+        
         audio.ontimeupdate = () => {
             if(audio.duration) {
                 const progressPercent = audio.currentTime * 100 / audio.duration
                 progress.value = progressPercent
+                this.loadCurrentTime()
             }
         }
-
+        
         progress.oninput = (e) => {
             audio.currentTime = e.target.value * audio.duration / 100
         }
+        
+        // xu ly volume
 
         volumeOn.onclick = e => {
             volumeBar.value = 0
@@ -156,6 +160,7 @@ const app = {
             _this.loadCurrentSong()       
             audio.play()
         }
+
     },
     loadCurrentSong: function() {
         heading.textContent = this.currentSong.name
@@ -163,12 +168,8 @@ const app = {
         audio.src = this.currentSong.path
     },
     loadCurrentTime: function() {
-        audio.ontimeupdate = () => {
-            if(audio.duration) {
-                songTimeDuration.innerHTML = (audio.duration / 60).toFixed(2)
-                songCurrentTime.innerHTML =  (audio.currentTime / 60).toFixed(2)
-            }
-        }
+        songTimeDuration.innerHTML = (audio.duration / 60).toFixed(2)
+        songCurrentTime.innerHTML =  (audio.currentTime / 60).toFixed(2)
     },
     loadVolume: function() {
         volumeOn.classList.add('active')
@@ -204,6 +205,10 @@ const app = {
                 _this.loadCurrentSong()
                 audio.play()
             }
+
+            song.querySelector('div.option').onclick = e => {
+                console.log('Option On!!')
+            }
         })
     },
     start: function() {
@@ -212,8 +217,6 @@ const app = {
         this.handleEvent()
 
         this.loadCurrentSong()
-
-        this.loadCurrentTime()
 
         this.loadVolume()
 
