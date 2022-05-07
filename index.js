@@ -146,11 +146,13 @@ const app = {
 
         nextSong.onclick = e => {
             _this.nextSong()
+            progress.value = 0
             _this.loadCurrentSong()       
             audio.play()
         }
         prevSong.onclick = e => {
             _this.prevSong()
+            progress.value = 0
             _this.loadCurrentSong()       
             audio.play()
         }
@@ -197,7 +199,7 @@ const app = {
         const songs = $$('.playlist div.song')
         songs.forEach(song => {
             song.onclick = e => {
-                console.log(e.target)
+                progress.value = 0
                 _this.currentIndex = e.target.id
                 _this.loadCurrentSong()
                 audio.play()
