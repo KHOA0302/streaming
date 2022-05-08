@@ -51,6 +51,13 @@ const app = {
             image: './asset/img/bg5.jpg',
         },
     ],
+    defineProperties: function() {
+        Object.defineProperty(this, 'currentSong', {
+            get: function() {
+                return this.songs[this.currentIndex]
+            }
+        })
+    },
     render: function() {
         const htmls = this.songs.map((song, index) => {
             return `
@@ -70,13 +77,7 @@ const app = {
         })
         $('.playlist').innerHTML = htmls.join('')
     },
-    defineProperties: function() {
-        Object.defineProperty(this, 'currentSong', {
-            get: function() {
-                return this.songs[this.currentIndex]
-            }
-        })
-    },
+   
     handleEvent: function() {
         const _this = this
         // xu ly thu phong CD kho scroll
@@ -123,6 +124,16 @@ const app = {
                 const progressPercent = audio.currentTime * 100 / audio.duration
                 progress.value = progressPercent
                 this.loadCurrentTime()
+            } if(audio.currentTime == audio.duration) {
+                if(_this.currentIndex < _this.songs.length - 1) {
+                    _this.currentIndex++
+                    _this.loadCurrentSong()
+                    audio.play()
+                } else if(_this.currentIndex == _this.songs.length - 1) {
+                    _this.currentIndex = 0
+                    _this.loadCurrentSong()
+                    audio.play()
+                }
             }
         }
         
@@ -214,9 +225,9 @@ const app = {
     start: function() {
         this.defineProperties()
 
-        this.handleEvent()
-
         this.loadCurrentSong()
+
+        this.handleEvent()
 
         this.loadVolume()
 
