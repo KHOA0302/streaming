@@ -98,11 +98,6 @@ const app = {
             cd.style.opacity = newCdWidth / cdWidth
         }
 
-        // xu ly tang giam am luong
-        volumeBar.oninput = () => {
-            audio.volume = volumeBar.value
-        }
-
         //xu ly onclick de play
         
         playBtn.onclick = () => {
@@ -169,7 +164,14 @@ const app = {
         
         // xu ly volume
 
+        let stampVolume
+          
+        volumeBar.oninput = () => {
+            audio.volume = volumeBar.value
+        }
+
         volumeOn.onclick = e => {
+            stampVolume = volumeBar.value
             volumeBar.value = 0
             audio.volume = 0
             volumeOff.classList.add('active')
@@ -177,8 +179,8 @@ const app = {
         }
 
         volumeOff.onclick = e => {
-            volumeBar.value = 0.2
-            audio.volume = 0.2
+            audio.volume = stampVolume
+            volumeBar.value = stampVolume
             volumeOn.classList.add('active')
             volumeOff.classList.remove('active')
         }
