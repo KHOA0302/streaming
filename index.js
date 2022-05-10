@@ -14,10 +14,16 @@ const songCurrentTime = $('.currentTime')
 const songTimeDuration = $('.timeDuration')
 const nextSong = $('.btn-next i')
 const prevSong = $('.btn-prev i')
+const random = $('.btn-random')
+const repeatOne = $('.btn-repeat_one')
+const repeatAll = $('.btn-repeat_all')
 
 const app = {
     currentIndex: 0,
     isPlaying: false,
+    isRepeatingOne: false,
+    isRepeatingAll: true,
+    isRandom: false,
     songs: [
         {
             name: '愛にできることはまだあるかい',
@@ -118,6 +124,17 @@ const app = {
             player.classList.remove('playing')
         }
         
+        const autoNext = ()=> {
+            if(_this.currentIndex < _this.songs.length - 1) {
+                _this.currentIndex++
+                _this.loadCurrentSong()
+                audio.play()
+            } else if(_this.currentIndex == _this.songs.length - 1) {
+                _this.currentIndex = 0
+                _this.loadCurrentSong()
+                audio.play()
+            } 
+        }
         
         audio.ontimeupdate = () => {
             if(audio.duration) {
@@ -125,14 +142,23 @@ const app = {
                 progress.value = progressPercent
                 this.loadCurrentTime()
             } if(audio.currentTime == audio.duration) {
-                if(_this.currentIndex < _this.songs.length - 1) {
-                    _this.currentIndex++
+                if(_this.isRepeatingOne) {
+                    _this.currentIndex = _this.currentIndex  
                     _this.loadCurrentSong()
                     audio.play()
-                } else if(_this.currentIndex == _this.songs.length - 1) {
-                    _this.currentIndex = 0
-                    _this.loadCurrentSong()
-                    audio.play()
+                } else if(_this.isRandom) {
+                    let randomIndex = Math.floor((Math.random() * (this.songs.length - 1)))
+                    if(this.currentIndex == randomIndex) {
+                        _this.currentIndex = randomIndex + 2
+                        _this.loadCurrentSong()
+                        audio.play()
+                    } else {
+                        _this.currentIndex = randomIndex
+                        _this.loadCurrentSong()
+                        audio.play()
+                    }
+                } else {
+                    autoNext()
                 }
             }
         }
@@ -172,6 +198,36 @@ const app = {
             audio.play()
         }
 
+        if(this.isRepeatingAll) {
+            repeatAll.classList.add('active')
+        }
+
+        repeatAll.onclick = e => {
+            _this.isRepeatingOne = true
+            _this.isRandom = false
+            _this.isRepeatingAll = false
+            repeatAll.classList.remove('active')
+            random.classList.remove('active')
+            repeatOne.classList.add('active')
+        }
+
+        repeatOne.onclick = e => {
+            _this.isRepeatingOne = false
+            _this.isRandom = true
+            _this.isRepeatingAll = false
+            repeatAll.classList.remove('active')
+            repeatOne.classList.remove('active')
+            random.classList.add('active')
+        }
+
+        random.onclick = e => {
+            _this.isRepeatingOne = false
+            _this.isRandom = false
+            _this.isRepeatingAll = true
+            repeatOne.classList.remove('active')
+            random.classList.remove('active')
+            repeatAll.classList.add('active')
+        }
     },
     loadCurrentSong: function() {
         heading.textContent = this.currentSong.name
