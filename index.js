@@ -1,3 +1,5 @@
+
+
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
@@ -26,31 +28,35 @@ const app = {
     isRandom: false,
     songs: [
         {
+            id: 0,
             name: '愛にできることはまだあるかい',
             singer: 'RADWIMPS',
             path: './asset/songs/song1.mp3',
             image: './asset/img/bg1.jpg',
         },
-       
         {
+            id: 1,
             name: '四月は君の嘘',
             singer: 'Orange - 7!!',
             path: './asset/songs/song3.mp3',
             image: './asset/img/bg3.jpg',
         },
         {
+            id: 2,
             name: '蒼のワルツ',
             singer: 'Eve',
             path: './asset/songs/song2.mp3',
             image: './asset/img/bg2.webp',
         },
         {
+            id: 3,
             name: 'スパークル',
             singer: 'RADWIMPS',
             path: './asset/songs/song4.mp3',
             image: './asset/img/bg4.jpg',
         },
         {
+            id: 4,
             name: 'ハレハレヤ',
             singer: '羽生まゐご',
             path: './asset/songs/song5.mp3',
@@ -67,7 +73,7 @@ const app = {
     render: function() {
         const htmls = this.songs.map((song, index) => {
             return `
-                <div class="song">
+                <div class="song-${index} song">
                     <div class="thumb" id=${index} 
                         style="background-image: url('${song.image}')">
                     </div>
@@ -235,6 +241,10 @@ const app = {
         heading.textContent = this.currentSong.name
         cdThumb.style.background = `url('${this.currentSong.image}')`
         audio.src = this.currentSong.path
+        document.querySelectorAll('.song').forEach(song => {
+            song.classList.remove('active')
+        })
+        document.querySelector(`.song-${this.currentIndex}`).classList.add('active')
     },
     loadCurrentTime: function() {
         songTimeDuration.innerHTML = (audio.duration / 60).toFixed(2)
@@ -281,6 +291,8 @@ const app = {
         })
     },
     start: function() {
+        this.render()
+
         this.defineProperties()
 
         this.loadCurrentSong()
