@@ -1,5 +1,3 @@
-
-
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
@@ -110,7 +108,8 @@ const app = {
             if(_this.isPlaying) {               
                 audio.pause()               
             } else {         
-                audio.play()             
+                audio.play()     
+                this.hightLightCurrentSong()      
             }
         }
 
@@ -148,7 +147,7 @@ const app = {
                     _this.loadCurrentSong()
                     audio.play()
                 } else if(_this.isRandom) {
-                    let randomIndex = Math.floor((Math.random() * (this.songs.length - 1)))
+                    let randomIndex = Math.floor((Math.random() * (_this.songs.length - 1)))
                     if(this.currentIndex == randomIndex) {
                         _this.currentIndex = randomIndex + 2
                         _this.loadCurrentSong()
@@ -194,16 +193,28 @@ const app = {
         // xu ly chuyen bai hat 
 
         nextSong.onclick = e => {
-            _this.nextSong()
-            progress.value = 0
-            _this.loadCurrentSong()       
-            audio.play()
+            if(_this.isRandom) {
+                _this.currentIndex =  Math.floor((Math.random() * (_this.songs.length - 1)))
+                _this.loadCurrentSong()
+                audio.play()
+            } else {
+                _this.nextSong()
+                progress.value = 0
+                _this.loadCurrentSong()       
+                audio.play()
+            }
         }
         prevSong.onclick = e => {
+            if(_this.isRandom) {
+                _this.currentIndex =  Math.floor((Math.random() * (_this.songs.length - 1)))
+                _this.loadCurrentSong()
+                audio.play()
+            } else {
             _this.prevSong()
             progress.value = 0
             _this.loadCurrentSong()       
             audio.play()
+            }
         }
 
         if(this.isRepeatingAll) {
@@ -241,6 +252,9 @@ const app = {
         heading.textContent = this.currentSong.name
         cdThumb.style.background = `url('${this.currentSong.image}')`
         audio.src = this.currentSong.path
+        this.hightLightCurrentSong()
+    },
+    hightLightCurrentSong: function() {
         document.querySelectorAll('.song').forEach(song => {
             song.classList.remove('active')
         })
